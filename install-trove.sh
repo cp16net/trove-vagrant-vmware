@@ -25,5 +25,16 @@ sed -i '/^%sudo/a\ubuntu ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
 # Fix the IPtables.
 #iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
 
+# Install Django manually, as pip is acting a little slow
+pushd /tmp
+    wget http://pypi.python.org/packages/source/D/Django/Django-1.5.1.tar.gz#md5=7465f6383264ba167a9a031d6b058bff -O Django.tgz
+    tar xzf Django.tgz
+    pushd Django-1.5.1
+        python setup.py install
+    popd
+popd
+
 # Install and kick-start as ubuntu
 sudo su - ubuntu -c "cd ~/trove-integration/scripts; ./redstack install && ./redstack kick-start mysql"
+
+echo Installed.
