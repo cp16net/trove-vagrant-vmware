@@ -16,7 +16,7 @@ useradd ubuntu -d /home/ubuntu -s /bin/bash -m
 echo ubuntu:ubuntu | chpasswd
 
 # Change where ubuntu starts at login
-sed -i '$a\cd /home/ubuntu/trove-integration/scripts' /home/ubuntu/.bashrc 
+#sed -i '$a\cd /home/ubuntu/trove-integration/scripts' /home/ubuntu/.bashrc 
 ln -s /opt/stack/trove-integration /home/ubuntu/trove-integration
 
 # Give ubuntu root nopasswd powers
@@ -26,4 +26,4 @@ sed -i '/^%sudo/a\ubuntu ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
 #iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
 
 # Install and kick-start as ubuntu
-sudo su - ubuntu "cd ~/trove-integration/scripts; ./redstack install && ./redstack kick-start mysql"
+sudo su - ubuntu -c "cd ~/trove-integration/scripts; ./redstack install && ./redstack kick-start mysql"
