@@ -3,32 +3,22 @@
 apt-get update -qq
 apt-get install -qq build-essential git-core libxml2-dev libxslt1-dev
 
-# Go get the code
-HGFS=/mnt/hgfs/!%vagrant/openstack
-if [ ! -d $HGFS ]; then
-    mkdir -p $HGFS
-    pushd $HGFS
-        git clone git://github.com/openstack/python-troveclient.git
-        git clone git://github.com/openstack/trove.git
-        git clone git://github.com/openstack/trove-integration.git
-    popd
-fi
-
-# Link the code to /opt/stack
-mkdir -p /opt/stack
-ln -s $HGFS/trove /opt/stack/reddwarf
-ln -s $HGFS/trove-integration /opt/stack/trove-integration
-ln -s $HGFS/python-troveclient /opt/stack/python-reddwarfclient
+# Get the code
+SHARE=/opt/stack
+mkdir -p $SHARE
+pushd $SHARE
+    for REPO in python-troveclient trove trove-integration; do
+        if [ ! -d "$SHARE/$REPO" ]; then
+            git clone git://github.com/openstack/$REPO.git
+        fi
+    done
+popd
 
 # Create the user ubuntu
 useradd ubuntu -d /home/ubuntu -s /bin/bash -m
 echo ubuntu:ubuntu | chpasswd
-
-# Change where ubuntu starts at login
+ln -s $SHARE/trove-integration /home/ubuntu/trove-integration
 sed -i '$a\cd /home/ubuntu/trove-integration/scripts' /home/ubuntu/.bashrc 
-ln -s /opt/stack/trove-integration /home/ubuntu/trove-integration
-
-# Give ubuntu root nopasswd powers
 sed -i '/^%sudo/a\ubuntu ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
 
 # Fix the IPtables.

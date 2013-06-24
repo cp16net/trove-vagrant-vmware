@@ -10,5 +10,9 @@ Vagrant.configure("2") do |config|
     v.vmx["memsize"] = "3072"
     v.vmx["numcpus"] = "1"
   end
+
+  if ENV['TROVE_SHARE']
+    config.vm.synced_folder ENV['TROVE_SHARE'], "/opt/stack"
+  end
   
 end
