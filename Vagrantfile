@@ -13,6 +13,8 @@ Vagrant.configure("2") do |config|
 
   if ENV['TROVE_SHARE']
     config.vm.synced_folder ENV['TROVE_SHARE'], "/opt/stack"
+  else
+    config.vm.synced_folder "..", "/opt/stack"
   end
   
 end
