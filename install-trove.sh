@@ -1,11 +1,12 @@
 #!/bin/bash
 
-apt-get update -qq
-apt-get install -qq build-essential git-core libxml2-dev libxslt1-dev
+sudo apt-get update -qq
+sudo apt-get install -qq build-essential git-core libxml2-dev libxslt1-dev
 
 # Get the code
 SHARE=/opt/stack
-mkdir -p $SHARE
+sudo mkdir -p $SHARE
+sudo chown -R vagrant:vagrant $SHARE 
 pushd $SHARE
     for REPO in python-troveclient trove trove-integration; do
         if [ ! -d "$SHARE/$REPO" ]; then
@@ -34,6 +35,6 @@ pushd /tmp
 popd
 
 # Install and kick-start as ubuntu
-sudo su - ubuntu -c "cd ~/trove-integration/scripts; ./redstack install && ./redstack kick-start mysql"
+sudo su - ubuntu -c "cd $SHARE/trove-integration/scripts; ./redstack install && ./redstack kick-start mysql"
 
 echo Installed.
