@@ -1,7 +1,8 @@
 #!/bin/bash
 
-apt-get update -qq
-apt-get install -qq build-essential git-core libxml2-dev libxslt1-dev
+export DEBIAN_FRONTEND=noninteractive
+apt-get update -y
+apt-get install -y --force-yes git-core
 
 # Get the code
 SHARE=/opt/stack
@@ -14,15 +15,13 @@ pushd $SHARE
     done
 popd
 
-# Create the user ubuntu
-useradd ubuntu -d /home/ubuntu -s /bin/bash -m
-echo ubuntu:ubuntu | chpasswd
-ln -s $SHARE/trove-integration /home/ubuntu/trove-integration
-sed -i '$a\cd /home/ubuntu/trove-integration/scripts' /home/ubuntu/.bashrc 
-sed -i '/^%sudo/a\ubuntu ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
+# create user trove
+useradd trove -d /home/trove -s /bin/bash -m
+echo trove:trove | chpasswd
+sed -i '/^%sudo/a\trove ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
+#sed -i '$a\cd /home/trove/trove-integration/scripts' /home/trove/.bashrc
 
-# Fix the IPtables.
-#iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE
+chown trove /opt/stack
 
 # Install Django manually, as pip is acting a little slow
 pushd /tmp
@@ -32,8 +31,5 @@ pushd /tmp
         python setup.py install
     popd
 popd
-
-# Install and kick-start as ubuntu
-sudo su - ubuntu -c "cd ~/trove-integration/scripts; ./redstack install && ./redstack kick-start mysql"
 
 echo Installed.
