@@ -35,6 +35,14 @@ pushd /tmp
     pushd Django-1.5.1
         python setup.py install
     popd
+    rm -rf Django*
 popd
+
+# Create fix-iptables.sh
+FIXSH="fix-iptables.sh"
+pushd /opt/stack/trove-integration/scripts
+    echo "#!/bin/bash" > $FIXSH
+    echo "sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE" >> $FIXSH
+    chmod +x $FIXSH
 
 echo Installed.
