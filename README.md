@@ -6,7 +6,7 @@ You'll need VMWare Fusion, and the VMWare Fusion Provisioner for Vagrant.
     ./redstack install
     ./redstack kick-start mysql
     ./fix-iptables.sh
-    ./redstack int-tests
+    ./redstack int-tests --group=blackbox
 
 Special thanks to Ryan Skoblenick:
 http://www.skoblenick.com/vagrant/creating-a-custom-box-from-scratch/
