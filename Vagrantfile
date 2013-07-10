@@ -5,6 +5,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider :vmware_fusion do |vmf|
     vmf.gui = "TRUE"
+    vmf.vmx["memsize"] = 3072
 
   end
 

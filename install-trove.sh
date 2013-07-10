@@ -3,7 +3,7 @@
 echo Updating apt and installing prerequisites.
 export DEBIAN_FRONTEND=noninteractive
 apt-get update -y -q
-apt-get install -y -q git-core libxml2-dev libxslt1-dev
+apt-get install -y -q git-core libxml2-dev libxslt1-dev python-pexpect maven2 apache2 bc debhelper
 
 
 echo Linking Trove codebase.
