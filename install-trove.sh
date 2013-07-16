@@ -27,8 +27,10 @@ if [ ! -d /home/trove ]; then
     echo trove:trove | chpasswd
     sed -i '/^%sudo/a\trove ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
     ln -s /opt/stack/trove-integration /home/trove/trove-integration
+    sed -i '$a\export PATH=$PATH:/sbin' /home/trove/.bashrc
     sed -i '$a\cd /home/trove/trove-integration/scripts' /home/trove/.bashrc
     chown trove /opt/stack
+    sed -i '/^adm.x/ s/vagrant/vagrant,trove/' /etc/group
 fi
 
 
