@@ -49,13 +49,13 @@ fi
 
 echo Creating fix-iptables.sh
 FIXSH="fix-iptables.sh"
-if [ ! -e "$FIXSH" ]; then
-    pushd /opt/stack/trove-integration/scripts
-        echo "#!/bin/bash" > $FIXSH
-        echo "sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE" >> $FIXSH
-        chmod +x $FIXSH
-    popd
-fi
+pushd /opt/stack/trove-integration/scripts
+    if [ ! -e "$FIXSH" ]; then
+            echo "#!/bin/bash" > $FIXSH
+            echo "sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o eth0 -j MASQUERADE" >> $FIXSH
+            chmod +x $FIXSH
+    fi
+popd
 
 
 echo Installed.
