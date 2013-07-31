@@ -5,9 +5,11 @@ export DEBIAN_FRONTEND=noninteractive
 apt-get update -y -q
 apt-get install -y -q git-core libxml2-dev libxslt1-dev python-pexpect maven2 apache2 bc debhelper
 
+SHARE=$1
+SHARE=${SHARE:-/trove}
+echo Trove shared directory is $SHARE
 
 echo Linking Trove codebase.
-SHARE=/trove
 mkdir -p /opt/stack $SHARE
 pushd $SHARE
     for REPO in python-troveclient trove trove-integration; do
@@ -21,16 +23,14 @@ pushd $SHARE
 popd
 
 
-echo Creating user trove.
-if [ ! -d /home/trove ]; then
-    useradd trove -d /home/trove -s /bin/bash -m
-    echo trove:trove | chpasswd
-    sed -i '/^%sudo/a\trove ALL=(ALL) NOPASSWD:ALL' /etc/sudoers
-    ln -s /opt/stack/trove-integration /home/trove/trove-integration
-    sed -i '$a\export PATH=$PATH:/sbin' /home/trove/.bashrc
-    sed -i '$a\cd /home/trove/trove-integration/scripts' /home/trove/.bashrc
-    chown trove /opt/stack
-    sed -i '/^adm.x/ s/vagrant/vagrant,trove/' /etc/group
+echo Updating user vagrant.
+TROVE_INSTALLED="/home/vagrant/.trove-installed"
+if [ ! -e "$TROVE_INSTALLED" ]; then
+    ln -s /opt/stack/trove-integration /home/vagrant/trove-integration
+    sed -i '$a\export PATH=$PATH:/sbin' /home/vagrant/.bashrc
+    sed -i '$a\cd /home/vagrant/trove-integration/scripts' /home/vagrant/.bashrc
+    chown vagrant /opt/stack
+    touch "$TROVE_INSTALLED"
 fi
 
 
