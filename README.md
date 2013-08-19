@@ -17,7 +17,7 @@ There are two optional environment variables the Vagrantfile looks for:
 &nbsp;
 
     TROVE_VM_SYNC_DIR
-        The directory o n the VM that the above directory will be available at.
+        The directory on the VM that the above directory will be available at.
         If it's not specified, `/vagrant` is used.
 
 
