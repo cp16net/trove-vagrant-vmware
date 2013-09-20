@@ -30,6 +30,11 @@ if [ ! -e "$TROVE_INSTALLED" ]; then
     sed -i '$a\export PATH=$PATH:/sbin' /home/vagrant/.bashrc
     sed -i '$a\cd /home/vagrant/trove-integration/scripts' /home/vagrant/.bashrc
     chown vagrant /opt/stack
+    SSH_CFG=/home/vagrant/.ssh/config
+    mkdir -p /home/vagrant/.ssh
+    echo "Host 10.0.0.*" >> $SSH_CFG
+    echo "    StrictHostKeyChecking no" >> $SSH_CFG
+    echo "    UserKnownHostsFile /dev/null" >> $SSH_CFG
     touch "$TROVE_INSTALLED"
 fi
 
