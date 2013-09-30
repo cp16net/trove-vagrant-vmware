@@ -28,6 +28,7 @@ TROVE_INSTALLED="/home/vagrant/.trove-installed"
 if [ ! -e "$TROVE_INSTALLED" ]; then
     ln -s /opt/stack/trove-integration /home/vagrant/trove-integration
     sed -i '$a\export PATH=$PATH:/sbin' /home/vagrant/.bashrc
+    sed -i '$a\export USE_UUID_TOKEN=True' /home/vagrant/.bashrc
     sed -i '$a\cd /home/vagrant/trove-integration/scripts' /home/vagrant/.bashrc
     chown vagrant /opt/stack
     SSH_CFG=/home/vagrant/.ssh/config
