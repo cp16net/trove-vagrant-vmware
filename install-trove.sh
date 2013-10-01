@@ -2,6 +2,22 @@
 
 echo Updating apt and installing prerequisites.
 export DEBIAN_FRONTEND=noninteractive
+
+
+SOURCES_UPDATED="/home/vagrant/.sources-updated"
+if [ ! -e "$SOURCES_UPDATED" ]; then
+    SOURCES=/etc/apt/sources.list
+
+    echo -e "deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-backports main restricted universe multiverse
+deb mirror://mirrors.ubuntu.com/mirrors.txt precise-security main restricted universe multiverse
+\n$(cat $SOURCES)" > $SOURCES
+
+    touch "$SOURCES_UPDATED"
+fi
+
+
 apt-get update -y -q
 apt-get install -y -q git-core libxml2-dev libxslt1-dev python-pexpect maven2 apache2 bc debhelper
 
