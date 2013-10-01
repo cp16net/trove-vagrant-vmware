@@ -20,6 +20,12 @@ Vagrant.configure("2") do |config|
     vmf.vmx["memsize"] = 3072
 
   end
+
+  config.vm.provider :virtualbox do |vb, override|
+    override.vm.box = "precise64"
+    override.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    vb.customize ["modifyvm", :id, "--memory", "3072"]
+  end
     
 end
 # vim: set ft=ruby:
