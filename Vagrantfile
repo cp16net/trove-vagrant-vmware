@@ -20,6 +20,19 @@ Vagrant.configure("2") do |config|
     override.vm.box_url = "http://files.vagrantup.com/precise64.box"
     vb.customize ["modifyvm", :id, "--memory", MEMORY.to_s]
   end
-    
+
+# Support for libvirt
+# just need an image now and some instructions
+  config.vm.provider :libvirt do |libvirt, override|
+    libvirt.driver = "qemu"
+    libvirt.host = "127.0.0.1"
+    libvirt.connect_via_ssh = true
+    libvirt.memory = 3072
+    libvirt.cpus = 2
+    override.vm.box = "precise64"
+    # override.vm.box_url = "http://files.vagrantup.com/precise64.box"
+    override.vm.synced_folder SOURCE_DIR, SYNC_DIR, :nfs => true
+  end
+
 end
 # vim: set ft=ruby:
