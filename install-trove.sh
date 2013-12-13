@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Install variables
-SHARE=$1
-SHARE=${SHARE:-/trove}
-APT_PACKAGES=git-core libxml2-dev libxslt1-dev python-pexpect apache2 bc debhelper curl
-TROVE_REPOS=python-troveclient trove trove-integration
+SHARE=${1:-/trove}
+TROVE_VM_ENV=${2:-public}
+
+APT_PACKAGES="git-core libxml2-dev libxslt1-dev python-pexpect apache2 bc debhelper curl"
+TROVE_REPOS="python-troveclient trove trove-integration"
 
 # Install functions
 function update_sources() {
