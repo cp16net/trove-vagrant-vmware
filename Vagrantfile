@@ -4,7 +4,10 @@ Vagrant.configure("2") do |config|
   SYNC_DIR = ENV['TROVE_VM_SYNC_DIR'] || "/trove"
   MEMORY = ENV['TROVE_VM_MEMORY'] || 2048
 
-  config.vm.synced_folder SOURCE_DIR, SYNC_DIR
+  config.vm.synced_folder SOURCE_DIR, SYNC_DIR, type: "rsync",
+    rsync__exclude: [".tox/", "trovetest.log"],
+    rsync__auto: true
+
   config.vm.provision :shell, :path => "install-trove.sh", :args => SYNC_DIR
 
   config.vm.provider :vmware_fusion do |vmf, override|
