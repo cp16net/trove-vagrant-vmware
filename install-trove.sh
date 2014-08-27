@@ -100,7 +100,7 @@ EOF
 }
 
 function install() {
-    update_sources
+    # update_sources
     install_apt_repos
     install_trove_repos
     update_user
